@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Shared files</title>
+</head>
+<body>
+
+<h1>Shared files</h1>
+
+<? if (empty($this->files)): ?>
+	<em>No files shared</em>
+<? else: ?>
+	<table>
+		<? foreach ($this->files as $file): ?>
+			<tr>
+				<td><?= $file['filename'] ?></td>
+				<td><?= $file['size_human'] ?></td>
+				<td><a href="/<?= $file['filename'] ?>">Download</a></td>
+			</tr>
+		<? endforeach ?>
+	</table>
+<? endif ?>
+
+</body>
+</html>
