@@ -1,6 +1,9 @@
+[submodule "lib/klein"]
+	path = lib/klein
+	url = git://github.com/chriso/klein.php.git
 [submodule "lib/php_http_auth"]
 	path = lib/php_http_auth
-	url = git@github.com:Znarkus/php_http_auth.git
+	url = git://github.com/Znarkus/php_http_auth.git
 [submodule "lib/prowlphp_wrapper"]
 	path = lib/prowlphp_wrapper
-	url = git@github.com:Znarkus/prowlphp_wrapper.git
+	url = git://github.com/Znarkus/prowlphp_wrapper.git
