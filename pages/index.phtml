@@ -1,8 +1,21 @@
+<?php
+function time_ago($time) {
+	$units = array('s' => 1, 'm' => 60, 'h' => 60, 'd' => 24, 'w' => 7);
+	$diff = time() - $time;
+	if ($diff < 1) return '0s';
+	foreach ($units as $unit => $divider) {
+		if ($diff / $divider < 1) return round($diff) . $prev;
+		$diff /= $divider;
+		$prev = $unit;
+	}
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8" />
 	<title>Shared files</title>
+	<link href="/css/main.css" rel="stylesheet">
 </head>
 <body>
 
@@ -12,11 +25,19 @@
 	<em>No files shared</em>
 <? else: ?>
 	<table>
+		<tr>
+			<th>Name</th><th>Size</th><th>Link</th><th>Stats</th>
+		</tr>
 		<? foreach ($this->files as $file): ?>
 			<tr>
 				<td><?= $file['filename'] ?></td>
 				<td><?= $file['size_human'] ?></td>
 				<td><a href="/<?= $file['filename'] ?>">Download</a></td>
+				<? if ($file['hits']): ?>
+					<td>Downloaded <?= count($file['hits']) ?> time(s), latest was <time title="<?= date('Y-m-d H:i:s', $file['last_hit']) ?>"><?= time_ago($file['last_hit']) ?> ago</time>.</td>
+				<? else: ?>
+					<td>Not downloaded yet.</td>
+				<? endif ?>
 			</tr>
 		<? endforeach ?>
 	</table>

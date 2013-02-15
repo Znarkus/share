@@ -4,7 +4,7 @@ class File
 {
 	private $_path;
 	private $_filename;
-	private $_file_id;
+	private $_file;
 	private $_di;
 	
 	/**
@@ -20,15 +20,23 @@ class File
 		
 		if (isset($this->_di['db'])) {
 			$md5 = md5_file($path);
-			$this->_file_id = $this->_di['db']->one('SELECT id FROM files WHERE `md5` = ? LIMIT 1', $md5, array('single_column' => true));
+			$this->_file = $this->_di['db']->one('SELECT * FROM files WHERE `md5` = ?', $md5);
 			
-			if (!$this->_file_id) {
-				$this->_di['db']->execute('INSERT INTO files (filename, `size`, `md5`) VALUES (?, ?, ?)',
-					array($this->_filename, $this->_size($path), $md5));
-				
-				$this->_file_id = $this->_di['db']->last_insert_id();
+			if (!$this->_file) {
+				$this->_di['db']->execute('INSERT INTO files (filename, `size`, `md5`) VALUES (?, ?, ?)'
+					, array($this->_filename, $this->_size($path), $md5));
+				$this->_file = $this->_di['db']->one('SELECT * FROM files WHERE id = ?', $this->_di['db']->last_insert_id());
+			
+			} else if ($this->_file['filename'] !== $this->_filename) {
+				$this->_di['db']->execute('UPDATE files SET filename = ? WHERE id = ?', array($this->_filename, $this->_file['id']));
+				$this->_file['filename'] = $this->_filename;
 			}
 		}
+	}
+	
+	public function data($key = null)
+	{
+		return $key ? $this->_file[$key] : $this->_file;
 	}
 	
 	private function _size($path) {
@@ -63,7 +71,7 @@ class File
 	private function _register_hit_db($data)
 	{
 		$this->_di['db']->execute('INSERT INTO hits (file_id, ip_address, created_at) VALUES (?, INET_ATON(?), ?)',
-			array($this->_file_id, $data['ip_address'], $this->_di['db']->format_date_time($data['date'])));
+			array($this->_file['id'], $data['ip_address'], $this->_di['db']->format_date_time($data['date'])));
 	}
 	
 	private function _register_hit_prowl($data)

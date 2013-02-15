@@ -29,7 +29,7 @@ respond('/', function (_Request $request, _Response $response, _App $app) {
 		exit;
 	}
 	
-	$files = new Files($app->db);
+	$files = new Files($app->db, $app->config['dir']['files']);
 	$response->render('pages/index.phtml', array('files' => $files->all()));
 });
 
