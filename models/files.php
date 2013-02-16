@@ -27,7 +27,9 @@ class Files
 			$ids[] = $data['id'];
 		}
 		
-		$hits = $this->_db->many('SELECT *, UNIX_TIMESTAMP(created_at) AS created_at FROM `hits` WHERE file_id IN (' . implode(',', $ids) . ') ORDER BY created_at');
+		$hits = $this->_db->many('SELECT *, UNIX_TIMESTAMP(created_at) AS created_at FROM `hits` WHERE '
+			. ($ids ? ('file_id IN (' . implode(',', $ids) . ')') : '0')
+			. ' ORDER BY created_at');
 		
 		foreach ($hits as $hit) {
 			$files[$hit['file_id']]['hits'][] = $hit;
