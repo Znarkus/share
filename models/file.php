@@ -19,7 +19,7 @@ class File
 		$this->_di = $di;
 		
 		if (isset($this->_di['db'])) {
-			$key = key(filemtime($path) . $this->_size($path));
+			$key = md5(filemtime($path) . $this->_size($path));
 			$this->_file = $this->_di['db']->one('SELECT * FROM files WHERE `key` = ?', $key);
 			
 			if (!$this->_file) {
