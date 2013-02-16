@@ -1,0 +1,1 @@
+ALTER TABLE `files` CHANGE `md5` `key` CHAR(32) CHARSET utf8 COLLATE utf8_bin NOT NULL AFTER `id`, CHANGE `filename` `filename` VARCHAR(255) CHARSET utf8 COLLATE utf8_bin NOT NULL AFTER `key`;

@@ -19,12 +19,12 @@ class File
 		$this->_di = $di;
 		
 		if (isset($this->_di['db'])) {
-			$md5 = md5_file($path);
-			$this->_file = $this->_di['db']->one('SELECT * FROM files WHERE `md5` = ?', $md5);
+			$key = key(filemtime($path) . $this->_size($path));
+			$this->_file = $this->_di['db']->one('SELECT * FROM files WHERE `key` = ?', $key);
 			
 			if (!$this->_file) {
-				$this->_di['db']->execute('INSERT INTO files (filename, `size`, `md5`) VALUES (?, ?, ?)'
-					, array($this->_filename, $this->_size($path), $md5));
+				$this->_di['db']->execute('INSERT INTO files (filename, `size`, `key`) VALUES (?, ?, ?)'
+					, array($this->_filename, $this->_size($path), $key));
 				$this->_file = $this->_di['db']->one('SELECT * FROM files WHERE id = ?', $this->_di['db']->last_insert_id());
 			
 			} else if ($this->_file['filename'] !== $this->_filename) {
@@ -40,12 +40,10 @@ class File
 	}
 	
 	private function _size($path) {
-		$path = realpath($path);
-		
 		if (PHP_OS == 'WINNT') {
 			$size = filesize($path);
 		} else {
-			exec(sprintf('du -b %s', escapeshellarg($path)), $out);
+			exec(sprintf('du -b %s', escapeshellarg(realpath($path))), $out);
 			preg_match('/^[0-9]+/', $out[0], $m);
 			$size = $m[0];
 		}
