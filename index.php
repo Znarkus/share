@@ -35,7 +35,7 @@ respond('/', function (_Request $request, _Response $response, _App $app) {
 
 // File
 respond('/[*:file]', function (_Request $request, _Response $response, _App $app) {
-	$filename = basename($request->file);
+	$filename = urldecode(basename($request->file));
 	
 	if ($filename[0] === '.') {
 		$request->cookie(403);
