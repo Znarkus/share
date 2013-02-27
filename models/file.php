@@ -61,9 +61,15 @@ class File
 			$this->_register_hit_db($data);
 		}
 		
-		if (isset($this->_di['prowl'])) {
+		// Only first download
+		if (isset($this->_di['prowl']) && $this->hits_count() == 1) {
 			$this->_register_hit_prowl($data);
 		}
+	}
+	
+	public function hits_count()
+	{
+		return $this->_di['db']->one('SELECT COUNT(*) AS c FROM hits WHERE file_id = ?', $this->_file['id'], array('single_column' => true));
 	}
 	
 	private function _register_hit_db($data)
