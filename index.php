@@ -61,6 +61,7 @@ respond('/[*:file]', function (_Request $request, _Response $response, _App $app
 	$file->register_hit(array('ip_address' => $request->ip(), 'date' => time()));
 	
 	$response->header('X-Accel-Redirect', '/f/' . $filename);
+	$response->header('Content-Disposition', 'attachment; filename=' . $filename);
 	//$response->header('X-Accel-Limit-Rate', 1024 * 50);	// 50kB/s
 	$response->header('Content-type', '');
 });
