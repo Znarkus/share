@@ -8,6 +8,7 @@ function time_ago($time) {
 		$diff /= $divider;
 		$prev = $unit;
 	}
+	return round($diff) . $prev;
 }
 ?>
 <!DOCTYPE html>
