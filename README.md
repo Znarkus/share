@@ -39,6 +39,7 @@ Utilizes nginx's X-Accel-Redirect to minimize the load.
 
 	return array(
 		'timezone' => 'Europe/Stockholm',
+		'locale' => 'en_US.UTF-8',
 		'dir' => array('files' => 'files/'),
 		'db' => array('user' => 'root', 'pass' => '', 'dbname' => 'share'),
 		'users' => array('username' => 'password'),

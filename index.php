@@ -4,6 +4,7 @@ error_reporting(E_ALL | E_STRICT);
 $config = require(getenv('CONFIG_FILE'));
 date_default_timezone_set($config['timezone']);
 header('Content-type: text/html; charset=utf-8');
+setlocale(LC_ALL, $config['locale']);
 
 require 'lib/klein/klein.php';
 require 'lib/php_http_auth/lib/digest.php';
