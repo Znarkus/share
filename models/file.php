@@ -49,7 +49,8 @@ class File
 				preg_match('/^[0-9]+/', $out[0], $m);
 				$size = $m[0];
 			} else {
-				throw new \Exception(implode("\n", $out), $return_code);
+				//throw new \Exception(implode("\n", $out), $return_code);
+				$size = -1;
 			}
 		}
 		
