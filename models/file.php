@@ -45,7 +45,7 @@ class File
 		} else {
 			exec(sprintf('du -b %s 2>&1', escapeshellarg(realpath($path))), $out, $return_code);
 			
-			if ($return_code != 0) {
+			if ($return_code === 0) {
 				preg_match('/^[0-9]+/', $out[0], $m);
 				$size = $m[0];
 			} else {
