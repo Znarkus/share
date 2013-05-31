@@ -43,9 +43,14 @@ class File
 		if (PHP_OS == 'WINNT') {
 			$size = filesize($path);
 		} else {
-			exec(sprintf('du -b %s', escapeshellarg(realpath($path))), $out);
-			preg_match('/^[0-9]+/', $out[0], $m);
-			$size = $m[0];
+			exec(sprintf('du -b %s 2>&1', escapeshellarg(realpath($path))), $out, $return_code);
+			
+			if ($return_code != 0) {
+				preg_match('/^[0-9]+/', $out[0], $m);
+				$size = $m[0];
+			} else {
+				throw new \Exception(implode("\n", $out), $return_code);
+			}
 		}
 		
 		if ($size < 0) {
