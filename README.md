@@ -1,9 +1,16 @@
-
 Share
 =====
 
 Simple app written in PHP for sharing files. Logs file hits to MySQL and Prowl (iOS).
 Utilizes nginx's X-Accel-Redirect to minimize the load. 
+
+
+## Features
+
+* Perfect for home/office servers. Just drop a file in a folder to share it.
+* Handles >2GB file sizes even on 32 bit plattforms.
+* Growl notification for both desktop and mobile.
+* Tracks downloads.
 
 
 ## Sample nginx configuration
