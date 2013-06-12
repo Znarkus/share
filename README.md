@@ -52,3 +52,10 @@ Utilizes nginx's X-Accel-Redirect to minimize the load.
 		'users' => array('username' => 'password'),
 		'prowl' => array('keys' => array('xxxyyyzzz'), 'app' => 'Share')
 	);
+
+
+## License
+
+Copyright 2012, [Markus Hedlund](http://markushedlund.com), [Snowfire](http://snowfireit.com).  
+Licensed under the MIT License.  
+Redistributions of files must retain the above copyright notice.
